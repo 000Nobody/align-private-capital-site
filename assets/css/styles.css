@@ -233,11 +233,24 @@ h3 { font-family: var(--serif); font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); 
 .hero__water {
   position: absolute; left: 0; right: 0; bottom: -2px; width: 100%;
   pointer-events: none; z-index: 1;
-  -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%);
-          mask-image: linear-gradient(180deg, transparent, #000 22%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, transparent 14%, #000 48%);
+          mask-image: linear-gradient(180deg, transparent 0%, transparent 14%, #000 48%);
 }
 .hero__water img { width: 100%; height: auto; object-fit: cover; }
-.hero .wrap { position: relative; z-index: 2; }
+/* Barely-there lift behind the text so it stays legible where the wave
+   rises into it on wide/short viewports; imperceptible where it doesn't. */
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(125% 88% at 21% 46%,
+    rgba(242,246,249,0.85) 0%,
+    rgba(242,246,249,0.52) 30%,
+    rgba(242,246,249,0) 56%);
+}
+@media (max-width: 720px){
+  .hero::after { background: radial-gradient(150% 70% at 50% 39%,
+    rgba(242,246,249,0.88) 0%, rgba(242,246,249,0.55) 32%, rgba(242,246,249,0) 64%); }
+}
+.hero .wrap { position: relative; z-index: 3; }
 .hero__eyebrow { margin-bottom: 1.6rem; }
 .hero h1 { max-width: 20ch; font-size: clamp(2.1rem, 1.2rem + 3.6vw, 4.7rem); overflow-wrap: break-word; }
 @media (max-width: 600px){ .hero h1 br { display: none; } .hero h1 { max-width: 16ch; } }
@@ -245,7 +258,7 @@ h3 { font-family: var(--serif); font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); 
 .hero__sub { margin-top: 1.8rem; max-width: 52ch; font-size: clamp(1.1rem, .95rem + .6vw, 1.35rem); color: var(--ink-soft); }
 .hero__cta { margin-top: 2.6rem; display: flex; flex-wrap: wrap; gap: 1rem; }
 .hero__meta {
-  position: absolute; z-index: 2; bottom: clamp(1.5rem,4vh,2.5rem); right: var(--gutter);
+  position: absolute; z-index: 3; bottom: clamp(1.5rem,4vh,2.5rem); right: var(--gutter);
   display: flex; gap: 2.5rem; text-align: right;
 }
 @media (max-width: 880px){ .hero__meta { display: none; } }
